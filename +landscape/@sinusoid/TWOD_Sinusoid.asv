@@ -1,0 +1,27 @@
+classdef TWOD_Sinusoid < landscape 
+
+    properties (SetAccess = private)
+        name; %string
+        L; %length of the sides of the squares of the checkerboard pattern
+        ymin; 
+        ymax;
+    end
+   
+    
+    methods 
+        Plot(obj)
+        function obj=TWOD_Sinusoid(name,ymin,ymax,L)
+            obj.name=name;
+            obj.L=L;
+            obj.ymin=ymin;
+            obj.ymax=ymax;
+        end %constructor
+        
+        function y=output(obj,x,y)
+            y=2e-3*gammar./(((Amp-kappa*Amp)*((sin(pi*obj.x./gap)).*(sin(pi*obj.y./gap)))) + (kappa*Amp) + Amp);
+        end %2D checkerboard function
+        
+    end
+    
+
+end

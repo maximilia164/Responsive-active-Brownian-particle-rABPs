@@ -38,7 +38,7 @@ delta=50;%every data points saved %10000 for L/v = 10 - 10000 seconds to save
 period = 5; %how many waves to have (10 normally, 5 for imaging?)
 
 W=0/180*pi; %angular velocity rad/s
-PBC = 1; %periodic boundary conditions
+PBC = 'periodic'; %can also choose 'reflective' or leave blank (keeps growing)
 verbose = 0; %simulation time shown - always off for parallel
 
 %DR values

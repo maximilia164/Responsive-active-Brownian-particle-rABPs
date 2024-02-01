@@ -94,7 +94,7 @@ classdef simulator_cls < handle
 %             obj.DR = obj.kb*obj.T/obj.gammar;	% rotational diffusion coefficient [rad^2/s]
             
             %for Ueli experiments with velocity
-            obj.gamma = obj.kb*obj.T/0.125; %to set the DT to 0.125
+            obj.gamma = obj.kb*obj.T/(0.125e-12); %to set the DT to 0.125 in um!!!
             obj.gammar = obj.kb*obj.T/0.1597; %to set the DR to 0.1597
             obj.DT = obj.kb*obj.T/obj.gamma;		% translational diffusion coefficient [m^2/s]
             obj.DR = obj.kb*obj.T/obj.gammar;	% rotational diffusion coefficient [rad^2/s]

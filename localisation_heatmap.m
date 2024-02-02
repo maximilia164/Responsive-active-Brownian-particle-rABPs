@@ -1,16 +1,21 @@
 % script to extract out the positions as heat map - calls discrete pos
 % Can use the format provided here to make own heatmaps
 
-Np = 1000;
+Np = 1000; %number particles
 % lengtht = 10001;
-lengtht = 100001;
-discrete = 20;
+lengtht = 100001; %length of trajectory
+discrete = 20; %discretisation of one period
+
+fps = 20; %sampling rate current
+skip = 10*fps; %skip first 10 seconds
+
+sample = 5*fps; %sample every 5 seconds
 
 
 %normalise wrt to the equilibrium with tau = 0 (instant update), L/v = 10
 % load('FILEPATH_LOCALISATION_XY')
 tic
-norm = discretise_pos(Np,lengtht,S,discrete);
+norm = discretise_pos(Np,lengtht,S,discrete,skip,sample);
 max_vals(1) = max(norm(:));
 toc
 % 

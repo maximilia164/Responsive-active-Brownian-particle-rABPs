@@ -1,20 +1,20 @@
-function S=Running_Sims_function(Np,dt,N,delta,gap,L_box,v0,tau,ymin,ymax,W,verbose,path,PBC)
+function S=Running_Sims_function(Np,dt,N,delta,gap,L_box,v0,tau,ymin,ymax,W,verbose,path,PBC,gauss)
 
 max_ratio = ymax/ymin;
 
 %initialise the sim/landscape and inputs    
-% landscape_DR=landscape.sinusoid('sin_DR',ymin,ymax,gap); 
+% landscape_DR=landscape.sinusoid('sin_DR',ymin,ymax,gap,gauss); 
 % response_DR=response.ODE(dt,tau,landscape_DR);
 % integratorx=integrator(response_DR,[],[]); %only Dr is studied for now
 % sim=simulator_cls(Np,dt,N,delta,L_box,integratorx);
 
-% landscape_DR=landscape.sinusoid('sinDR',ymin,ymax,gap);  %name for reference
+% landscape_DR=landscape.sinusoid('sinDR',ymin,ymax,gap,gauss);  %name for reference
 % response_DR=response.ODE(dt,tau,landscape_DR);
 % integratorx=integrator(response_DR,[],[]); %only Dr is studied for now
 % sim=simulator_cls(Np,dt,N,delta,gap,L_box,integratorx);
 
 %initialise desired landscape in value
-landscape_v0=landscape.checkerboard('checker_v0',ymin,ymax,gap); 
+landscape_v0=landscape.checkerboard('checker_v0',ymin,ymax,gap,gauss); 
 %initialise the desired response - hysteresis for ODE3 - for the landscape
 %declared above
 response_v0=response.ODE3(dt,tau,landscape_v0);
@@ -25,9 +25,9 @@ response_v0=response.ODE3(dt,tau,landscape_v0);
 integratorx=integrator([],response_v0,[]); 
 sim=simulator_cls(Np,dt,N,delta,gap,L_box,integratorx);
 
-% landscape_v=landscape.sinusoid('sin_v',ymin,ymax,gap);
+% landscape_v=landscape.sinusoid('sin_v',ymin,ymax,gap,gauss);
 % response_v=response.ODE(dt,tau,landscape_v);
-% landscape_W=landscape.sinusoid('sin_W',ymin,ymax,gap);
+% landscape_W=landscape.sinusoid('sin_W',ymin,ymax,gap,gauss);
 % response_W=response.ODE(dt,tau,landscape_W);
 
 %running sim

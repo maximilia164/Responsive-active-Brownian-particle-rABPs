@@ -1,7 +1,7 @@
 clear all; close all; clc
 
 rng('shuffle','simdTwister')
-pp=what('DR_Localisation_map');
+pp=what('INSERT_SAVINGDIR_HERE');
 path=pp.path;
 
 %ideal for single tests or short-time sims e.g. TS analysis
@@ -24,6 +24,13 @@ delta=50;%every data points saved
 W=0/180*pi; %angular velocity rad/s
 PBC = 0; %turn PBC off for time series analysis
 verbose = 0;
+period = 5;
+
+%default mu = 1, sigma = 0, for no change - gaussian distribution
+mu = 1; %mean of gaussian multiplying the velocities 
+sigma = 0.1; %stddev of gaussian multiplying the velocities
+%place here - prevents different initialisations in each parallel pool
+gauss = abs(normrnd(mu,sigma,[Np,1]));
 
 % kappa_Dr = 1000; %ratio between Dr_min, Dr_max 
 % Dr_min = 0.010295335381257;
@@ -39,7 +46,7 @@ v0_max = v0_min*kappa_v0;
 pathprova=[path];
 
 for i = 1:numel(tau)
-    Running_Sims_function(Np,dt,N,delta,gap,[gap*10 gap*10],v0,tau(i),v0_min,v0_max,W,verbose,pathprova,PBC);
+    Running_Sims_function(Np,dt,N,delta,gap,[gap*period gap*period],v0,tau(i),v0_min,v0_max,W,verbose,pathprova,PBC,gauss);
 end
 
 

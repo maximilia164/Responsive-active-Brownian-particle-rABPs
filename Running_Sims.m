@@ -13,14 +13,14 @@ local_job = parcluster('local');
 pool = parpool(local_job, num_pp);
 
 rng('shuffle','simdTwister')
-pp=what('TEST_SHOWING');
+pp=what('INSERT_SAVINGDIR_HERE');
 path=pp.path;
 
 %average for the lengthscale
-v0 = 5e-6; %velocity (metres)
+v0 = 5e-6; %velocity (metres) - sets lengthscale of environment
 L_V = [10]; %L/V ratio
 gap = v0*L_V; %"length" of a box/period
-tau = [0,0.03,0.3,3,30,300];
+tau = [0,0.03,0.3,3,30,300]; %response tau values
 
 %unique(round(logspace(-2,2,20),3));%unique(round(logspace(-2,2,8),3));%unique(round(logspace(2,4,5),3)); %unique(round(logspace(2,4,5),3));
 %tau(end) = [] %drop final element
@@ -40,6 +40,12 @@ period = 5; %how many waves to have (10 normally, 5 for imaging?)
 W=0/180*pi; %angular velocity rad/s
 PBC = 'periodic'; %can also choose 'reflective' or leave blank (keeps growing)
 verbose = 0; %simulation time shown - always off for parallel
+
+%default mu = 1, sigma = 0, for no change - gaussian distribution
+mu = 1; %mean of gaussian multiplying the velocities 
+sigma = 0.1; %stddev of gaussian multiplying the velocities
+%place here - prevents different initialisations in each parallel pool
+gauss = abs(normrnd(mu,sigma,[Np,1]));
 
 %DR values
 % kappa_Dr = 1000; %ratio between Dr_min, Dr_max 
@@ -86,7 +92,7 @@ parfor i=jobs*(num_pp)-num_pp+1:jobs*(num_pp)
 %for DR
 % Running_Sims_function(Np,dt,N,delta,g(i),[g(i)*period g(i)*period],v0,T(i),Dr_min,Dr_max,W,verbose,pathprova,PBC);
 %for v0
-Running_Sims_function(Np,dt,N,delta,g(i),[g(i)*10 g(i)*10],v0,T(i),v0_min,v0_max,W,verbose,pathprova,PBC);
+Running_Sims_function(Np,dt,N,delta,g(i),[g(i)*period g(i)*period],v0,T(i),v0_min,v0_max,W,verbose,pathprova,PBC,gauss);
 end
 % delete(gcp('nocreate'));
 end
@@ -97,7 +103,7 @@ parfor i=num_fbatch*(num_pp)+1:numel(g) %used for the final remainder on top - s
 %for DR
 % Running_Sims_function(Np,dt,N,delta,g(i),[g(i)*period g(i)*period],v0,T(i),Dr_min,Dr_max,W,verbose,pathprova,PBC);
 %for v0
-Running_Sims_function(Np,dt,N,delta,g(i),[g(i)*10 g(i)*10],v0,T(i),v0_min,v0_max,W,verbose,pathprova,PBC);
+Running_Sims_function(Np,dt,N,delta,g(i),[g(i)*period g(i)*period],v0,T(i),v0_min,v0_max,W,verbose,pathprova,PBC,gauss);
 end
 % delete(gcp('nocreate'));
 

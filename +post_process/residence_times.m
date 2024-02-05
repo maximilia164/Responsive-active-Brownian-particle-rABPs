@@ -1,6 +1,6 @@
 function [eta,tau_H,tau_L]=residence_times(obj,landscape)
 
-c=landscape.output(obj.x,obj.y); %value of c(i) is +/- 1 based on position of x in chessboard
+c=landscape.processing(obj.x,obj.y); %value of c(i) is +/- 1 based on position of x in chessboard
 mask_H=c>=(landscape.ymin+landscape.ymax)/2;
 mask_L=c<(landscape.ymin+landscape.ymax)/2;
 c(mask_H)=0; %high Dr = tau_H - sin curve is positive = high Dr (environment) Also high v

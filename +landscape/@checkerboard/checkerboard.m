@@ -5,6 +5,7 @@ classdef checkerboard < landscape.landscapes
         L; %length of the sides of the squares of the checkerboard pattern
         ymin; 
         ymax;
+        gauss;
     end
     
     methods (Static)

@@ -7,7 +7,7 @@ classdef ODE3 < handle
         y_set;
         ymemory;
         dydt;
-        dydt_inst; %for instant response
+        % dydt_inst; %for instant response
     end
     
     
@@ -20,7 +20,7 @@ classdef ODE3 < handle
 %             obj.dydt=@(t,y,y_set)-1/tau*(y.^2-y_set.^2); %try to adjust to allow change here
             %1st order - standard response
             obj.dydt=@(t,y,y_set)-1/tau*(y-y_set); %the response function used
-            obj.dydt_inst = @(t,y,y_set)-1000*(y-y_set); %currently not used
+            % obj.dydt_inst = @(t,y,y_set)-1000*(y-y_set); %currently not used
         end %constructor
     end
     

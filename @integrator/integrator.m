@@ -10,10 +10,10 @@ classdef integrator < handle
     methods
         function obj=integrator(varargin)
 %             if nargin>0
-              obj.response_DR=varargin{1};
+              obj.response_DR=varargin{2};
 %             end
 %             if nargin>1
-              obj.response_v=varargin{2};
+              obj.response_v=varargin{1};
 %             end       
 %             if nargin>2
               obj.response_W=varargin{3};

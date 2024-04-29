@@ -47,18 +47,29 @@ sigma = 0.1; %stddev of gaussian multiplying the velocities
 %place here - prevents different initialisations in each parallel pool
 gauss = abs(normrnd(mu,sigma,[Np,1]));
 
-%DR values
 % kappa_Dr = 1000; %ratio between Dr_min, Dr_max 
-% Dr_min = 0.010295335381257;
-% Dr_max = Dr_min*kappa_Dr;
+Dr_min = [];%0.010295335381257;
+Dr_max = [];%Dr_min*kappa_Dr;
 
-%Velocity values
 kappa_v0 = 10;
-v0_min = 0;%1e-6;
-v0_max = 2e-6;%v0_min*kappa_v0;
+v0_min = 1e-6;%1e-6;%0.3e-6;
+v0_max = v0_min*kappa_v0;%v0_min*kappa_v0;
 
-% W_min = 0;
-% W_max = 10;
+W_min = [];
+W_max = [];
+
+y_min = {v0_min Dr_min W_min};
+y_max = {v0_max Dr_max W_max};
+
+env = 'sinusoid'; %'checker', 'sinusoid' are the options for now
+
+%Defining the ODE to be used and the landscape (whether it shifts with time)
+ode = 'Standard'; %'Standard', 'Hysteresis', 'Standard_Temporal', 'Hysteresis_Temporal', 'ZOH', 'ZOH_delay'
+% ODE2, ODE3, ODE2_Temporal, ODE3_Temporal respectively - where ODE3 allows for hysteretic response, ODE2 is classic fast RK solver,
+% and X_temporal causes the landscape to shift with time. ODE3_temporal not
+% yet implemented
+
+rand_init = 1; %randomise the initial positions
 
 [Y,Z] = meshgrid(gap,tau);
 
@@ -92,7 +103,7 @@ parfor i=jobs*(num_pp)-num_pp+1:jobs*(num_pp)
 %for DR
 % Running_Sims_function(Np,dt,N,delta,g(i),[g(i)*period g(i)*period],v0,T(i),Dr_min,Dr_max,W,verbose,pathprova,PBC);
 %for v0
-Running_Sims_function(Np,dt,N,delta,g(i),[g(i)*period g(i)*period],v0,T(i),v0_min,v0_max,W,verbose,pathprova,PBC,gauss);
+Running_Sims_function(Np,dt,N,delta,g(i),[g(i)*period g(i)*period],v0,T(i),y_min,y_max,W,verbose,pathprova,PBC,gauss,env,ode,rand_init);
 end
 % delete(gcp('nocreate'));
 end
@@ -103,7 +114,7 @@ parfor i=num_fbatch*(num_pp)+1:numel(g) %used for the final remainder on top - s
 %for DR
 % Running_Sims_function(Np,dt,N,delta,g(i),[g(i)*period g(i)*period],v0,T(i),Dr_min,Dr_max,W,verbose,pathprova,PBC);
 %for v0
-Running_Sims_function(Np,dt,N,delta,g(i),[g(i)*period g(i)*period],v0,T(i),v0_min,v0_max,W,verbose,pathprova,PBC,gauss);
+Running_Sims_function(Np,dt,N,delta,g(i),[g(i)*period g(i)*period],v0,T(i),v0_min,v0_max,W,verbose,pathprova,PBC,gauss,env,ode,rand_init);
 end
 % delete(gcp('nocreate'));
 

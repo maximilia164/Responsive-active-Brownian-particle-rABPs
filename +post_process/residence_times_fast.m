@@ -1,6 +1,5 @@
 function [eta,tau_H,tau_L]=residence_times_fast(obj,landscape)
-%for temporal - would need a for loop over each n value... - or at least
-%for multiples of n before the periodicity
+
 c=landscape.processing(obj.x,obj.y); %value of c(i) is +/- 1 based on position of x in chessboard
 mask_H=c>=(landscape.ymin+landscape.ymax)/2;
 mask_L=c<(landscape.ymin+landscape.ymax)/2;

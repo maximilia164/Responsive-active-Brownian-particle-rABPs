@@ -2,7 +2,7 @@ classdef sinusoid < landscape.landscapes
 
     properties (SetAccess = private)
         name; %string
-        L; %through-to-peak distance (period=2*L)
+        L; %trough-to-peak distance (period=2*L)
         ymin; 
         ymax;
         gauss;

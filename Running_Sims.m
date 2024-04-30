@@ -29,10 +29,10 @@ tau = [0,0.03,0.3,3,30,300]; %response tau values
 Np=1e1; %number particles 
 dt=1e-3; %integration time step (in seconds)
 
-N = 1e4;  %total number of steps DEFAULT 1e8!! (increased by 10 for tau increased by factor 10) - increased from 1e8 to 1e9 for dt = 1e-4, since need to match times
+N = 1e6;  %total number of steps DEFAULT 1e8!! (increased by 10 for tau increased by factor 10) - increased from 1e8 to 1e9 for dt = 1e-4, since need to match times
 %for tau = 1e4, increased to 1e9 so that dt*N >= 100*tau( - when dt = 1e-3,
 %ensuring that enough time for tau to relax)
-delta=50;%every data points saved %10000 for L/v = 10 - 10000 seconds to save
+delta=500;%every data points saved %10000 for L/v = 10 - 10000 seconds to save
 %!!! N/delta must be a positive number
 
 period = 5; %how many waves to have (10 normally, 5 for imaging?)

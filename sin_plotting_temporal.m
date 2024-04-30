@@ -42,3 +42,35 @@ for t = 1:31
     exportgraphics(gcf,'testmap.gif','Append',true);
     close;
 end
+
+%% checking output of processing
+
+%Sinusoidal mapping
+
+%set up the grid
+Lx = 10e-6;
+Ly = Lx;
+gridsz = 0.1;
+period = 3;
+
+% meshx = -Lx*period:gridsz:Lx*period;
+% meshy = -Ly*period:gridsz:Ly*period;
+% 
+% [X,Y] = meshgrid(meshx,meshy);
+
+x = S.traj.x(:,1:20:end);
+y = S.traj.y(:,1:20:end);
+
+scale = 10;
+ymin = 1;
+ymax = ymin*scale;
+
+func = @(x,y,t) (ymin-ymax)/2*(1+sin(x./(Lx)*pi+pi/2)...
+                .*sin(y./(Ly)*pi+pi/2))+ymax;
+
+test = func(x,y);
+% surf(X,Y,test)
+
+
+
+

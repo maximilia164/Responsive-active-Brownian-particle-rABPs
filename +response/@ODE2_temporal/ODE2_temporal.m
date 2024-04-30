@@ -30,19 +30,24 @@ classdef ODE2_temporal < handle
     
     methods
         function y=output(obj,xbox,ybox,n)
-
             if obj.tau>0
                 if n==1 %the initial condition set up
                     y=obj.landscape.output(xbox,ybox);
                     obj.ymemory=y;
                 else
-                    obj.y_set=obj.landscape.output(xbox+obj.ymin*(n-1)*obj.dt,ybox+obj.ymin*(n-1)*obj.dt); %update for shifting sin curve
+                    %for shift in both x and y
+                    % obj.y_set=obj.landscape.output(xbox+obj.ymin*(n-1)*obj.dt,ybox+obj.ymin*(n-1)*obj.dt); %update for shifting sin curve
+                    %shift only x for checks
+                    obj.y_set=obj.landscape.output(xbox+obj.ymin*(n-1)*obj.dt,ybox);
                     y=obj.ymemory; %current y is called from the previous value
                     %updating memory with RK4 in general form
                     obj.ymemory=obj.RK2(y,n);
                 end
             else
-                y=obj.landscape.output(xbox+obj.vmin*(n-1)*obj.dt,ybox+obj.vmin*(n-1)*obj.dt);
+                %shift both values
+                % y=obj.landscape.output(xbox+obj.vmin*(n-1)*obj.dt,ybox+obj.vmin*(n-1)*obj.dt);
+                %shift just x for checks
+                y=obj.landscape.output(xbox+obj.ymin*(n-1)*obj.dt,ybox);
             end
         end
         yf = RK2(obj,y,n);

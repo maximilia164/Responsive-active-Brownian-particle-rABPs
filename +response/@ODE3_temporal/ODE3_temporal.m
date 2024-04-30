@@ -34,19 +34,22 @@ classdef ODE3_temporal < handle
                     y=obj.landscape.output(xbox,ybox);
                     obj.ymemory=y;
                 else
-                    obj.y_set=obj.landscape.output(xbox+obj.ymin*(n-1)*obj.dt,ybox+obj.ymin*(n-1)*obj.dt); %target val from the landscape
+                    %shift both directions
+                    % obj.y_set=obj.landscape.output(xbox+obj.ymin*(n-1)*obj.dt,ybox+obj.ymin*(n-1)*obj.dt); %target val from the landscape
+                    %shift just xfor checks
+                    obj.y_set=obj.landscape.output(xbox+obj.ymin*(n-1)*obj.dt,ybox);
                     y=obj.ymemory; %particle value is called from its memory
                     %updating memory with RK4 in general form
                     obj.ymemory=obj.RK3(y,n); %input stored DR/V0 from memory
-%                     obj.ymemory=obj.update(y); %call the update function RK4
                 end
             else
-                obj.y_set=obj.landscape.output(xbox+obj.ymin*(n-1)*obj.dt,ybox+obj.ymin*(n-1)*obj.dt);
+                %shift both vals
+                % y=obj.landscape.output(xbox+obj.ymin*(n-1)*obj.dt,ybox+obj.ymin*(n-1)*obj.dt);
+                %shift just x for checks
+                y=obj.landscape.output(xbox+obj.ymin*(n-1)*obj.dt,ybox);
             end
         end
-        
         yf = RK3(obj,y,n);
-%         yf=update(obj,y); 
     end
     
     
